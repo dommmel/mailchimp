@@ -94,8 +94,9 @@ func (c *Client) Do(method string, path string, body interface{}) (interface{}, 
 	return v, nil
 }
 
-func (c *Client) Subscribe(email string, listId string) (interface{}, error) {
-	v, err := c.Do("POST", fmt.Sprintf("/lists/%s/members/", listId), &map[string]string{"email_address": email, "status": "subscribed"})
+func (c *Client) Subscribe(email string, listId string, status string) (interface{}, error) {
+	if status == "" {status = "subscribed" } 
+	v, err := c.Do("POST", fmt.Sprintf("/lists/%s/members/", listId), &map[string]string{"email_address": email, "status": status})
 	if err != nil {
 		return v, err
 	}
